@@ -1,9 +1,7 @@
 package com.watcher.app.controller.api;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.watcher.app.domain.posts.YouTubePosts;
-import com.watcher.app.domain.views.ViewsYouTube;
-import com.watcher.app.repo.YouTubePostsRepo;
+import com.watcher.app.model.posts.YouTubePosts;
+import com.watcher.app.repository.YouTubePostsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +24,6 @@ public class PostController {
     }
 
     @GetMapping
-    @JsonView(ViewsYouTube.Full.class)
     public List<YouTubePosts> getAllYouTubePosts() {
         return youTubePostsRepo.findAll();
     }
