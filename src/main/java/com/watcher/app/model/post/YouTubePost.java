@@ -1,7 +1,6 @@
-package com.watcher.app.model.posts;
+package com.watcher.app.model.post;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jdk.internal.jline.internal.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,23 +8,22 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Access(AccessType.FIELD)
 @Table(name = "youtube_posts")
-public class YouTubePosts {
+public class YouTubePost {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @Nullable
-    @Column(name = "header")
+    @Column(name = "header", nullable = false)
     @Size(message = "Максимум 100 символов", max = 100)
     private String header;
 
@@ -39,9 +37,9 @@ public class YouTubePosts {
     @Column (name = "video_url_link")
     private String videoUrlLink;
 
-    @Nullable
-    @Column(name = "tag")
-    private Set<String> tags;
+    @ElementCollection
+    @Column(name = "tags", nullable = false)
+    private Set<String> tags = new HashSet<>();
 
     @Column(updatable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")

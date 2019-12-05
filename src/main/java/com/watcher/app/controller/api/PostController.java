@@ -1,7 +1,7 @@
 package com.watcher.app.controller.api;
 
-import com.watcher.app.model.posts.YouTubePosts;
-import com.watcher.app.repository.YouTubePostsRepo;
+import com.watcher.app.model.post.YouTubePost;
+import com.watcher.app.repository.YouTubePostRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,26 +11,26 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/posts/yt")
 public class PostController {
-    private final YouTubePostsRepo youTubePostsRepo;
+    private final YouTubePostRepo youTubePostRepo;
 
     @Autowired
-    public PostController(YouTubePostsRepo youTubePostsRepo) {
-        this.youTubePostsRepo = youTubePostsRepo;
+    public PostController(YouTubePostRepo youTubePostRepo) {
+        this.youTubePostRepo = youTubePostRepo;
     }
 
     @GetMapping("{id}")
-    public YouTubePosts getPostYouTube(@PathVariable("id") YouTubePosts youTubePosts) {
-        return youTubePosts;
+    public YouTubePost getPostYouTube(@PathVariable("id") YouTubePost youTubePost) {
+        return youTubePost;
     }
 
     @GetMapping
-    public List<YouTubePosts> getAllYouTubePosts() {
-        return youTubePostsRepo.findAll();
+    public List<YouTubePost> getAllYouTubePosts() {
+        return youTubePostRepo.findAll();
     }
 
     @PostMapping
-    public void create(@RequestBody YouTubePosts youTubePosts) {
-        youTubePosts.setDataCreated(LocalDateTime.now());
-        youTubePostsRepo.save(youTubePosts);
+    public void create(@RequestBody YouTubePost youTubePost) {
+        youTubePost.setDataCreated(LocalDateTime.now());
+        youTubePostRepo.save(youTubePost);
     }
 }
