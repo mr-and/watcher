@@ -38,7 +38,7 @@ public class YouTubePost {
     private String videoUrlLink;
 
     @ElementCollection
-    @Column(name = "tags", nullable = false)
+    @Column(name = "tags")
     private Set<String> tags = new HashSet<>();
 
     @Column(updatable = false)
