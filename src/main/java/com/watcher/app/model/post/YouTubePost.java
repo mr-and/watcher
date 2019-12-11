@@ -1,12 +1,14 @@
 package com.watcher.app.model.post;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,33 +18,34 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "youtube_posts")
-public class YouTubePost {
+public class YouTubePost implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
+    @NotBlank
+    @Length(message = "Максимум 100 символов", max = 100)
     @Column(name = "header", nullable = false)
-    @Size(message = "Максимум 100 символов", max = 100)
     private String header;
 
-    @Column (name = "content")
-    @Size(message = "Максимум 10 000 символов", max = 10000)
+    @Length(message = "Максимум 10 000 символов", max = 10000)
+    @Column(name = "content")
     private String content;
 
-    @Column (name = "rating")
+    @Column(name = "rating")
     private Long rating;
 
-    @Column (name = "video_url_link")
+    @URL(regexp = "(?:https?:\\/\\/)?(?:www\\.)?youtu\\.?be(?:\\.com)?\\/?.*(?:watch|embed)?(?:.*v=|v\\/|\\/)([\\w\\-_]+)\\&?")
+    @Column(name = "video_url_link")
     private String videoUrlLink;
 
-    @ElementCollection
+    @ElementCollection(targetClass = String.class)
     @Column(name = "tags")
     private Set<String> tags = new HashSet<>();
 
     @Column(updatable = false)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime dataCreated;
 
 }
