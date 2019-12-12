@@ -4,12 +4,14 @@ import com.watcher.app.dto.YouTubePostDto;
 import com.watcher.app.mapper.YouTubeMapper;
 import com.watcher.app.service.YouTubePostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Validated
 @RestController
 @RequestMapping("/api/posts/yt")
 public class PostController {

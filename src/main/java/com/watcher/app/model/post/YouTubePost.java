@@ -20,6 +20,11 @@ import java.util.Set;
 @Table(name = "youtube_posts")
 public class YouTubePost implements Serializable {
 
+    @PostPersist
+    private void initTags() {
+        tags.add("YouTube");
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", updatable = false, nullable = false)
@@ -37,15 +42,20 @@ public class YouTubePost implements Serializable {
     @Column(name = "rating")
     private Long rating;
 
-    @URL(regexp = "(?:https?:\\/\\/)?(?:www\\.)?youtu\\.?be(?:\\.com)?\\/?.*(?:watch|embed)?(?:.*v=|v\\/|\\/)([\\w\\-_]+)\\&?")
-    @Column(name = "video_url_link")
+    @NotBlank
+    @Length(message = "Максимальная длинна 1000", max = 1000)
+    @URL(message = "Некорректная ссылка", regexp = "(?:https?:\\/\\/)?(?:www\\.)?youtu\\.?be(?:\\.com)?\\/?.*(?:watch|embed)?(?:.*v=|v\\/|\\/)([\\w\\-_]+)\\&?")
+    @Column(name = "video_url_link", nullable = false)
     private String videoUrlLink;
 
-    @ElementCollection(targetClass = String.class)
+    @ElementCollection(fetch = FetchType.EAGER, targetClass = String.class)
     @Column(name = "tags")
     private Set<String> tags = new HashSet<>();
 
     @Column(updatable = false)
     private LocalDateTime dataCreated;
+
+    @Column(name = "show_post")
+    private boolean showPost = true;
 
 }
